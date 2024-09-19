@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Cronometro</title>
+<style>
+.reloj {
+    font-family: "Times New Roman";
+    font-size: 120px;
+    text-align: center;
+    color: blue;
+    margin-top: 2cm;
+}
+
+.controles {
+    text-align: center;
+}
+
+.boton {
+    border-radius: 0.5em;
+    text-decoration: none;
+    color: white;
+    padding: 1em 3em;
+    background-color: #329bd8;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.boton:hover {
+    background-color: transparent;
+    border: 0.15em #329bd8 solid;
+    color: #329bd8;
+}
+
+.boton:active {
+    background-color: transparent;
+    border: 0.15em #5e8ca5 solid;
+    color: #5e8ca5;
+}
+</style>
+<script type="text/javascript">
+var horas = 0;
+var minutos = 0;
+var segundos = 0;
+var temp;
+
+function iniciarCuentaAtras() {
+    horas = parseInt(prompt("Introduce las horas:")) || 0;
+    minutos = parseInt(prompt("Introduce los minutos:")) || 0;
+    segundos = parseInt(prompt("Introduce los segundos:")) || 0;
+
+    temp = setInterval(function () {
+        cuentaAtras();
+    }, 1000);
+}
+
+function cuentaAtras() {
+    if (segundos > 0 || minutos > 0 || horas > 0) {
+        segundos -= 1;
+        if (segundos === -1) {
+            minutos -= 1;
+            segundos = 59;
+        }
+        if (minutos === -1) {
+            horas -= 1;
+            minutos = 59;
+        }
+
+        actualizarTexto();
+    } else {
+        clearInterval(temp);
+        alert("Cuenta atrás finalizada");
+    }
+}
+
+function actualizarTexto() {
+    var tminutos = minutos < 10 ? '0' + minutos : minutos;
+    var tsegundos = segundos < 10 ? '0' + segundos : segundos;
+    document.getElementById('texto').innerHTML = horas + ":" + tminutos + ":" + tsegundos;
+}
+
+function pararCuentaAtras() {
+    clearInterval(temp);
+}
+
+function reiniciarCuentaAtras() {
+    clearInterval(temp);
+    resetea();
+    temp = setInterval(function () {
+        cuentaAtras();
+    }, 1000);
+}
+
+function resetea() {
+    horas = 0;
+    minutos = 0;
+    segundos = 0;
+    document.getElementById('texto').innerHTML = "0:00:00";
+}
+</script>
+</head>
+<body>
+<div id='texto' class='reloj'>0:00:00</div>
+<div id='botones' class='controles'>
+    <input type='button' class='boton' value='Iniciar' onclick='iniciarCuentaAtras();'>
+    <input type='button' class='boton' value='Parar' onclick='pararCuentaAtras();'>
+    <input type='button' class='boton' value='Reiniciar' onclick='reiniciarCuentaAtras();'>
+</div>
+</body>
+</html>
